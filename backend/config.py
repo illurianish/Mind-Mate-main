@@ -29,8 +29,8 @@ class Config:
         'http://localhost:3000',    # Local React dev server
         'http://localhost:3001',    # Local React dev server (alternate port)
         'http://localhost:5002',    # Local Flask dev server
-        'https://kissmissbaba.github.io',  # Your GitHub Pages root
-        'https://kissmissbaba.github.io/Mind-Mate',  # Your GitHub Pages frontend URL
+        'https://illurianish.github.io',  # Your GitHub Pages root
+        'https://illurianish.github.io/Mind-Mate-main',  # Your GitHub Pages frontend URL
         'https://mind-mate-fe88.onrender.com'  # Render backend URL
     ]
     CORS_SUPPORTS_CREDENTIALS = False  # Simplified
