@@ -31,7 +31,7 @@ class Config:
         'http://localhost:5002',    # Local Flask dev server
         'https://illurianish.github.io',  # Your GitHub Pages root
         'https://illurianish.github.io/Mind-Mate-main',  # Your GitHub Pages frontend URL
-        'https://mind-mate-fe88.onrender.com'  # Render backend URL
+        'https://mind-mate-main.onrender.com'  # Render backend URL
     ]
     CORS_SUPPORTS_CREDENTIALS = False  # Simplified
     CORS_ALLOW_HEADERS = ['Content-Type', 'Authorization']

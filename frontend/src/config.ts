@@ -1,7 +1,7 @@
 const config = {
   apiUrl: process.env.REACT_APP_API_URL || 
     (process.env.NODE_ENV === 'production'
-      ? 'https://mind-mate-fe88.onrender.com'
+      ? 'https://mind-mate-main.onrender.com'
       : 'http://localhost:5002'),
   
   // Add timeout for API calls
