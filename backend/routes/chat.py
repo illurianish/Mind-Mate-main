@@ -25,7 +25,23 @@ def get_openai_client():
     logger.info(f"🔑 OpenAI API key status: {'Present' if api_key else 'MISSING'}")
     if not api_key:
         raise ValueError("Whoops! No OpenAI API key found - check your .env file")
-    return OpenAI(api_key=api_key)
+    
+    # Clear any proxy environment variables that might interfere
+    proxy_vars = ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy']
+    original_values = {}
+    for var in proxy_vars:
+        if var in os.environ:
+            original_values[var] = os.environ[var]
+            del os.environ[var]
+    
+    try:
+        # Initialize OpenAI client with minimal parameters
+        client = OpenAI(api_key=api_key)
+        return client
+    finally:
+        # Restore original proxy values
+        for var, value in original_values.items():
+            os.environ[var] = value
 
 # This is the personality we give to our AI - more natural and conversational
 SYSTEM_MESSAGE = """You are MindMate, a warm and intelligent mental health companion. You're like talking to a wise, empathetic friend who really gets it.
