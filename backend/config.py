@@ -44,6 +44,8 @@ class Config:
     if not OPENAI_API_KEY:
         print("⚠️  Hey! You need to set up your OpenAI API key for the chat feature to work.")
         print("   Add OPENAI_API_KEY to your environment variables")
+    else:
+        print(f"✅ OpenAI API key configured: {OPENAI_API_KEY[:10]}...{OPENAI_API_KEY[-4:]}")
     
     # Development vs production settings
     FLASK_ENV = os.getenv('FLASK_ENV', 'production')
