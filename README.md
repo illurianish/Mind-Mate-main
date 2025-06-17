@@ -14,7 +14,7 @@ MindMate is an AI-powered mental health chatbot designed to provide emotional su
 
 ## 🚀 Live Demo
 
-Visit [https://illurianish.github.io/Mind-Mate](https://illurianish.github.io/Mind-Mate) to try out MindMate!
+Visit [Mind-Mate](https://illurianish.github.io/Mind-Mate-main/) to try out MindMate!
 
 
 ## 🛠️ Tech Stack
