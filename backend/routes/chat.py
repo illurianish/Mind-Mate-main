@@ -73,10 +73,16 @@ Remember:
 def get_response_with_history(message):
     """
     Enhanced response function that includes conversation history for context
+    Uses direct HTTP requests to avoid OpenAI client proxy issues
     """
     try:
         logger.info(f"🤖 Getting OpenAI response with history for: {message[:50]}...")
-        client = get_openai_client()
+        
+        # Get API key
+        api_key = os.getenv('OPENAI_API_KEY')
+        if not api_key:
+            logger.error("💥 No OpenAI API key found")
+            return "I'm having some technical difficulties right now. Let me know if you'd like to try again."
         
         # Get recent conversation history for context
         try:
@@ -98,19 +104,38 @@ def get_response_with_history(message):
         # Add the current message
         messages.append({"role": "user", "content": message})
         
-        logger.info(f"💬 Sending {len(messages)} messages to OpenAI for context")
+        logger.info(f"💬 Sending {len(messages)} messages to OpenAI via direct HTTP")
         
-        # Send to OpenAI with full conversation context
-        completion = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            max_tokens=500,  # Slightly more tokens for better responses
-            temperature=0.8,  # A bit more creative for natural conversation
+        # Use direct HTTP request to avoid client proxy issues
+        import requests
+        
+        headers = {
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json'
+        }
+        
+        data = {
+            "model": "gpt-3.5-turbo",
+            "messages": messages,
+            "max_tokens": 500,
+            "temperature": 0.8
+        }
+        
+        response = requests.post(
+            'https://api.openai.com/v1/chat/completions',
+            headers=headers,
+            json=data,
+            timeout=30
         )
         
-        response = completion.choices[0].message.content
-        logger.info(f"✅ Got contextual OpenAI response: {response[:50]}...")
-        return response
+        if response.status_code == 200:
+            result = response.json()
+            ai_response = result['choices'][0]['message']['content']
+            logger.info(f"✅ Got contextual OpenAI response via HTTP: {ai_response[:50]}...")
+            return ai_response
+        else:
+            logger.error(f"💥 OpenAI API error: {response.status_code} - {response.text}")
+            return "Something went wrong on my end. Mind trying that again?"
         
     except ValueError as e:
         logger.error(f"💥 OpenAI setup problem: {str(e)}")
